@@ -18,6 +18,11 @@
   flex: 1;
 }
 
+
+.rating {
+  margin-top: 10px;
+}
+
 .footer {
   text-align: center;
   padding: 15px;
@@ -103,4 +108,46 @@
   .movies-container {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+.comment-display {
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-left: 4px solid #0077b5;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.comment-text {
+  cursor: pointer;
+  color: #555;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.7) !important; /* Fundo escuro bloqueando a página */
+}
+
+.toast-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+}
+
+/* Seletor ajustado para o body do toast, pois o Toast do React-Bootstrap renderiza um elemento .toast-body */
+.toast-success .toast-body {
+  background-color: #4CAF50 !important;  /* Verde para ações positivas */
+  color: #fff;
+}
+
+.toast-danger .toast-body {
+  background-color: #FF4D4D !important;  /* Vermelho para ações de desmarcar */
+  color: #fff;
 }

@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Home from './pages/Home';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-bootstrap/Button";
+import "react-bootstrap/Modal";
+import "react-bootstrap/Toast";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
