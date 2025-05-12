@@ -38,35 +38,24 @@ const MovieCard = ({ movie }) => {
   const showToast = (message, type) => {
     setToastMessage(message);
     setToastType(type);
-    setTimeout(() => setToastMessage(""), 3000); // Exibe o Toast por 3 segundos
+    setTimeout(() => setToastMessage(""), 5000); // Exibe o Toast por 3 segundos
   };
 
   return (
     <div className="movie-card">
       <img src={movie.image} alt={movie.title} className="movie-image" />
       <h2>{movie.title} ({movie.release_date})</h2>
-      <p><strong>Duração:</strong> {movie.running_time} minutos</p>
-      <p><strong>Diretor:</strong> {movie.director}</p>
-      <p><strong>Produtor:</strong> {movie.producer}</p>
-      <p>
-        <strong>Nota:</strong>
+      <div className="subtitle">
         <Rating value={movie.rt_score / 20} readOnly max={1} />
-        {movie.rt_score}%
-      </p>
-      <p>{movie.description}</p>
-
-      <div className="rating">
-        <span>Avaliação:</span>
-        <Rating 
-          name={`rating-${movie.id}`} 
-          value={rating/20} 
-          onChange={(event, newValue) => {
-            setRating(newValue*20)
-            showToast("Avaliação atualizada!", "success");
-          }}
-          precision={0.5} 
-        />
+        {movie.rt_score}% &middot; {movie.running_time} minutos
       </div>
+      <div className="subtitle">
+        <strong>Diretor:</strong> &nbsp; {movie.director}
+      </div>
+      <div className="subtitle">
+        <strong>Produtor:</strong> &nbsp; {movie.producer}
+      </div>
+      <p style={{ marginTop: "20px" }}>{movie.description}</p>
 
       {/* Exibir anotação abaixo da avaliação, caso exista */}
       {comment && (
@@ -76,26 +65,6 @@ const MovieCard = ({ movie }) => {
         </div>
       )}
 
-      <div className="actions">
-        <Button variant={watched ? "success" : "secondary"} onClick={() => {
-          setWatched(!watched);
-          showToast(watched ? "Removido de Assistidos" : "Marcado como Assistido", watched ? "danger" : "success");       
-         }}>
-          {watched ? "✔ Assistido" : "Marcar como Assistido"}
-        </Button>
-
-        <Button variant={favorite ? "danger" : "secondary"} onClick={() => {
-          setFavorite(!favorite);
-          showToast(favorite ? "Removido dos Favoritos" : "Adicionado aos Favoritos", favorite ? "danger" : "success");        
-        }}>
-          {favorite ? "❤️ Favorito" : "Marcar como Favorito"}
-        </Button>
-
-        <Button variant="primary" onClick={() => setShowModal(true)}>
-          {comment ? "✏ Editar Anotação" : "📝 Adicionar Anotação"}
-        </Button>
-      </div>
-
       {/* Modal para adicionar/editar anotações */}
       <CommentModal 
         movieId={movie.id} 
@@ -103,6 +72,44 @@ const MovieCard = ({ movie }) => {
         handleClose={() => setShowModal(false)} 
         updateComment={updateComment} 
       />
+
+      {/* Primeira Linha: Avaliação + Botão de Anotação */}
+      <div className="bottom-container">
+        <div className="rating-line">
+          <span>Avaliação:</span>
+          <Rating 
+            name={`rating-${movie.id}`} 
+            value={rating/20} 
+            onChange={(event, newValue) => {
+              setRating(newValue*20)
+              showToast("Avaliação atualizada!", "success");
+            }}
+            precision={0.5} 
+          />
+        </div>
+        <div className="annotation-line">
+          <Button className="annotation-btn" variant="primary" onClick={() => setShowModal(true)}>
+            {comment ? "✏ Editar Anotação" : "📝 Adicionar Anotação"}
+          </Button>
+        </div>
+
+        {/* Segunda Linha: Botões de Assistido e Favoritos */}
+        <div className="action-line">
+          <Button className="action-btn" variant={watched ? "success" : "secondary"} onClick={() => {
+            setWatched(!watched);
+            showToast(watched ? "Removido de Assistidos" : "Marcado como Assistido", watched ? "danger" : "success");       
+          }}>
+            {watched ? "✔ Assistido" : "Marcar como Assistido"}
+          </Button>
+
+          <Button className="action-btn" variant={favorite ? "danger" : "secondary"} onClick={() => {
+            setFavorite(!favorite);
+            showToast(favorite ? "Removido dos Favoritos" : "Adicionado aos Favoritos", favorite ? "danger" : "success");        
+          }}>
+            {favorite ? "❤️ Favorito" : "Marcar como Favorito"}
+          </Button>
+        </div>
+      </div>
 
       {/* Exibir mensagem Toast */}
       {toastMessage && (

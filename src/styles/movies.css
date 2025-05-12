@@ -18,11 +18,6 @@
   flex: 1;
 }
 
-
-.rating {
-  margin-top: 10px;
-}
-
 .footer {
   text-align: center;
   padding: 15px;
@@ -77,12 +72,49 @@
 }
 
 .movie-card {
-  background-color: #fff;
-  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  max-width: 300px;
+  background-color: #fff;
+  position: relative;
+  min-height: 400px;  /* Exemplo: ajuste conforme necessidade */
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: rgb(107 114 128/var(--tw-text-opacity,1));
+}
+
+.rating-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.annotation-line .annotation-btn {
+  width: 100%;
+}
+
+.action-line {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões, ajuste conforme necessário */
+  margin-top: 10px;
+}
+
+.action-line .action-btn {
+  flex: 1;          /* Faz com que cada botão ocupe igual espaço */
+  /* Remover margens extras se houver */
+  width: 100%;      /* Garante o preenchimento do container disponível */
+}
+
+.bottom-container {
+  margin-top: auto;
+  padding-bottom: 10px; /* Espaço de 10px do bottom */
 }
 
 .movie-image {
@@ -160,7 +192,7 @@
 }
 
 .toast-container {
-  position: fixed;
+  position: fixed !important;
   top: 10px;
   right: 10px;
   z-index: 9999;
