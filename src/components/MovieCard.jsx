@@ -59,9 +59,9 @@ const MovieCard = ({ movie }) => {
         <span>Avaliação:</span>
         <Rating 
           name={`rating-${movie.id}`} 
-          value={rating} 
+          value={rating/20} 
           onChange={(event, newValue) => {
-            setRating(newValue)
+            setRating(newValue*20)
             showToast("Avaliação atualizada!", "success");
           }}
           precision={0.5} 
