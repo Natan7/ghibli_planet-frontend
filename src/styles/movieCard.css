@@ -80,8 +80,13 @@
 .toast-success .toast-body {
   background-color: #4CAF50 !important;
   color: #fff;
+  border: 1px solid #f9fcff !important;
+  border-radius: 8px !important;
 }
 
 .toast-danger .toast-body {
   background-color: #FF4D4D !important;
+  color: #fff;
+  border: 1px solid #f9fcff !important;
+  border-radius: 8px !important;
 }

@@ -93,7 +93,7 @@ const MovieCard = ({ movie }) => {
             value={rating / 20} 
             onChange={(event, newValue) => {
               setRating(newValue * 20);
-              showToast("Avaliação atualizada!", "success");
+              showToast("✔ Avaliação atualizada!", "success");
             }}
             precision={0.5} 
           />
@@ -127,8 +127,8 @@ const MovieCard = ({ movie }) => {
               setWatched(!watched);
               showToast(
                 watched
-                  ? "Removido de Assistidos"
-                  : "Marcado como Assistido",
+                  ? "ⓧ Removido de Assistidos"
+                  : "✔ Marcado como Assistido",
                 watched ? "danger" : "success"
               );
             }}
