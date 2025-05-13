@@ -18,7 +18,7 @@ const CommentModal = ({ movieId, show, handleClose, updateComment }) => {
       return;
     }
     localStorage.setItem(storageKey, comment);
-    updateComment(comment); // Atualiza a anotação no MovieCard
+    updateComment(comment);
     handleClose();
   };
 

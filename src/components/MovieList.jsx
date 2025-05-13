@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "../utils/api";
-import MovieCard from "./MovieCard";
-import "../styles/movies.css";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-const MoviesList = () => {
+import MovieCard from "./MovieCard";
+import "../styles/movieList.css";
+
+const MovieList = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [sortOption, setSortOption] = useState("none"); // 🔹 Adicionando uma opção de filtragem padrão
+  const [sortOption, setSortOption] = useState("none");
   const [filters, setFilters] = useState({
     watched: false,
     favorite: false,
@@ -80,9 +83,28 @@ const MoviesList = () => {
     }));
   };
 
+  const clearFilters = () => {
+    setSearch("");
+    setSortOption("none");
+    setFilters({
+      watched: false,
+      favorite: false,
+      hasNote: false,
+      hasRating: false,
+    });
+  };
+
+  const areFiltersActive =
+        sortOption !== "none" ||
+        search.trim() !== "" ||
+        filters.watched ||
+        filters.favorite ||
+        filters.hasNote ||
+        filters.hasRating;
+  
   return (
     <>
-      <div className="search-container">
+      <div className="search-wrapper">
         <input
           type="text"
           placeholder="🔍 Buscar por título, sinopse ou ano..."
@@ -90,25 +112,33 @@ const MoviesList = () => {
           onChange={(e) => setSearch(e.target.value)}
           className="search-input"
         />
+
+        {areFiltersActive && (
+          <Button
+            className="clear-filters-btn"
+            variant="secondary"
+            onClick={clearFilters}
+          >
+            Limpar Filtros
+          </Button>
+        )}
       </div>
 
       {/* Dropdown para ordenação */}
-      {/* 🔹 Movendo o seletor para o lado direito */}
       <div className="filter-container">
         <label>Ordenar por:</label>
-        <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="sort-select">
+        <Form.Select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="sort-select">
           <option value="none">Sem ordenação</option>
           <option value="title-asc">Título (A-Z)</option>
           <option value="title-desc">Título (Z-A)</option>
           <option value="duration-asc">Duração (Curto → Longo)</option>
           <option value="duration-desc">Duração (Longo → Curto)</option>
-          <option value="rating-asc">Avaliação Pessoal (Menor → Maior)</option>
-          <option value="rating-desc">Avaliação Pessoal (Maior → Menor)</option>
-          <option value="rt-score-asc">Nota RT Score (Menor → Maior)</option>
-          <option value="rt-score-desc">Nota RT Score (Maior → Menor)</option>
-        </select>
+          <option value="rating-asc">Minha Avaliação (Menor → Maior)</option>
+          <option value="rating-desc">Minha Avaliação (Maior → Menor)</option>
+          <option value="rt-score-asc">Nota Geral (Menor → Maior)</option>
+          <option value="rt-score-desc">Nota Geral (Maior → Menor)</option>
+        </Form.Select>
 
-        {/* 🔹 Filtros abaixo do seletor de ordenação */}
         <label>
           <input type="checkbox" checked={filters.watched} onChange={() => handleFilterChange("watched")} />
           Assistido
@@ -123,7 +153,7 @@ const MoviesList = () => {
         </label>
         <label>
           <input type="checkbox" checked={filters.hasRating} onChange={() => handleFilterChange("hasRating")} />
-          Com Avaliação Pessoal
+          Com Minha Avaliação
         </label>
       </div>
 
@@ -142,4 +172,4 @@ const MoviesList = () => {
   );
 };
 
-export default MoviesList;
+export default MovieList;

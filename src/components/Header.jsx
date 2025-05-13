@@ -1,7 +1,11 @@
+import { FaGlobeAmericas } from "react-icons/fa";
+
 const Header = () => {
     return (
       <header className="header">
-        <h1>🎥 Planet Ghibli</h1>
+        <h1>
+        <FaGlobeAmericas /> Planet Ghibli
+        </h1>
       </header>
     );
   };
