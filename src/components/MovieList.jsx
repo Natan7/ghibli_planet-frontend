@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { getMovies } from "../utils/api";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useDispatch, useSelector } from "react-redux";
+import { setMovies } from "../redux/actions";
 
 import MovieCard from "./MovieCard";
 import "../styles/movieList.css";
 
 const MovieList = () => {
-  const [movies, setMovies] = useState([]);
+  const dispatch = useDispatch();
+  const movies = useSelector((state) => state.movies.movies);
+
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sortOption, setSortOption] = useState("none");
@@ -21,22 +25,26 @@ const MovieList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMovies();
-      const updatedMovies = data.map(movie => ({
-        ...movie,
-        personal_rating: parseFloat(localStorage.getItem(`rating-${movie.id}`) || 0),
-        watched: localStorage.getItem(`watched-${movie.id}`) === "true",
-        favorite: localStorage.getItem(`favorite-${movie.id}`) === "true",
-        hasNote: localStorage.getItem(`comment-${movie.id}`)?.trim() !== "",
-      }));
 
-      setMovies(updatedMovies);
+      const savedMovies = JSON.parse(localStorage.getItem("movies")) || [];
+      const updatedMovies = data.map((movie) => {
+        const storedMovie = savedMovies.find((m) => m.id === movie.id);
+        return storedMovie ? storedMovie : { ...movie, favorite: false, watched: false };
+      });
+      
+      dispatch(setMovies(updatedMovies)); // Salva os filmes no Redux
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
-  if (loading) return <p>Carregando filmes...</p>;
-
+  if (loading)
+    return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <p>Carregando filmes...</p>
+      </div>
+    );
+  
   const filteredMovies = movies.filter(movie => {
     const matchesSearch =
       movie.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,7 +60,6 @@ const MovieList = () => {
     return matchesSearch && matchesFilters;
   });
 
-  // Função para ordenar filmes
   const sortedMovies = sortOption === "none" ? filteredMovies : [...filteredMovies].sort((a, b) => {
     switch (sortOption) {
       case "title-asc":
@@ -124,7 +131,6 @@ const MovieList = () => {
         )}
       </div>
 
-      {/* Dropdown para ordenação */}
       <div className="filter-container">
         <label>Ordenar por:</label>
         <Form.Select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="sort-select">
@@ -156,18 +162,14 @@ const MovieList = () => {
           Com Minha Avaliação
         </label>
       </div>
-
-      {sortedMovies.length > 0 ? (
-        <div className="movies-container">
-          {
-            sortedMovies.map(movie => 
-                <MovieCard key={movie.id} movie={movie} />
-            )
-          }
-        </div>
-      ) : (
-        <p className="no-movies">Nenhum filme encontrado.</p>        
-      )}
+      
+      <div className="movies-container">
+        {sortedMovies.length > 0 ? (
+          sortedMovies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
+        ) : (
+          <p className="no-movies">Nenhum filme encontrado.</p>
+        )}
+      </div>
     </>
   );
 };

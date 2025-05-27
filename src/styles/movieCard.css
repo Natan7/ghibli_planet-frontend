@@ -53,6 +53,20 @@
   margin-top: 10px;
 }
 
+.custom-rating .MuiRating-iconFilled {
+  color: #FFD700;
+}
+
+.custom-rating .MuiRating-iconEmpty {
+  color: #ccc;
+}
+
+.custom-rating .MuiRating-icon {
+  stroke: #888;
+  stroke-width: 1;
+}
+
+
 .annotation-line .annotation-btn {
   width: 100%;
   font-size: 12px;
@@ -68,6 +82,18 @@
   flex: 1;
   width: 100%;
   font-size: 12px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .toast-container {
