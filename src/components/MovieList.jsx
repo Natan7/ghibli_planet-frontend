@@ -21,6 +21,7 @@ const MovieList = () => {
     hasNote: false,
     hasRating: false,
   });
+  const [isFiltering, setIsFiltering] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,10 +85,13 @@ const MovieList = () => {
   });
 
   const handleFilterChange = (filterKey) => {
+    setIsFiltering(true);
     setFilters(prevFilters => ({
       ...prevFilters,
       [filterKey]: !prevFilters[filterKey],
     }));
+
+    setTimeout(() => setIsFiltering(false), 250);
   };
 
   const clearFilters = () => {
@@ -116,7 +120,7 @@ const MovieList = () => {
           type="text"
           placeholder="🔍 Buscar por título, sinopse ou ano..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {setSearch(e.target.value); handleFilterChange();}}
           className="search-input"
         />
 
@@ -133,7 +137,7 @@ const MovieList = () => {
 
       <div className="filter-container">
         <label>Ordenar por:</label>
-        <Form.Select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="sort-select">
+        <Form.Select value={sortOption} onChange={(e) => {setSortOption(e.target.value); handleFilterChange();}} className="sort-select">
           <option value="none">Sem ordenação</option>
           <option value="title-asc">Título (A-Z)</option>
           <option value="title-desc">Título (Z-A)</option>
@@ -163,13 +167,22 @@ const MovieList = () => {
         </label>
       </div>
       
-      <div className="movies-container">
-        {sortedMovies.length > 0 ? (
-          sortedMovies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
-        ) : (
-          <p className="no-movies">Nenhum filme encontrado.</p>
-        )}
-      </div>
+      {isFiltering ? (
+        <div className="loading-container">
+          <div className="loading-circle"></div>
+        </div>
+      ) : (
+        <div>
+          {sortedMovies.length > 0 ? (
+            <div className="movies-container">
+              {sortedMovies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+            </div>
+          ) : (
+            <p className="no-movies">Nenhum filme encontrado.</p>
+          )}
+        </div>
+      )}
+
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Rating } from "@mui/material";
 import Button from "react-bootstrap/Button";
 import Toast from "react-bootstrap/Toast";
@@ -17,36 +17,6 @@ const MovieCard = ({ movie }) => {
   const [toastType, setToastType] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const storageKeyRating = `rating-${movie.id}`;
-  const storageKeyWatched = `watched-${movie.id}`;
-  const storageKeyFavorite = `favorite-${movie.id}`;
-  const storageKeyComment = `comment-${movie.id}`;
-
-  const [rating, setRating] = useState(() =>
-    localStorage.getItem(storageKeyRating)
-      ? parseFloat(localStorage.getItem(storageKeyRating))
-      : 0
-  );
-  const [watched, setWatched] = useState(() =>
-    localStorage.getItem(storageKeyWatched) === "true"
-  );
-  const [favorite, setFavorite] = useState(() =>
-    localStorage.getItem(storageKeyFavorite) === "true"
-  );
-  const [comment, setComment] = useState(
-    () => localStorage.getItem(storageKeyComment) || ""
-  );
-
-  useEffect(() => {
-    localStorage.setItem(storageKeyRating, rating);
-    localStorage.setItem(storageKeyWatched, watched);
-    localStorage.setItem(storageKeyFavorite, favorite);
-  }, [rating, watched, favorite]);
-
-  useEffect(() => {
-    localStorage.setItem(storageKeyComment, comment);
-  }, [comment]);
-
   const showToast = (message, type) => {
     setToastMessage(message);
     setToastType(type);
@@ -57,7 +27,6 @@ const MovieCard = ({ movie }) => {
   const handleRatingChange = (newValue) => {
     const newRating = newValue * 20;
     dispatch(updateRating(movie.id, newRating));
-    setRating(newRating);
     showToast("✔ Avaliação atualizada!", "success");
   };
 
