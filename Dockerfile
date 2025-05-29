@@ -6,6 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY . .
 
+ENV GENERATE_SOURCEMAP=false
 RUN npm install
 RUN npm run build
 
