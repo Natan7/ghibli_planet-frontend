@@ -95,6 +95,7 @@ const MovieList = () => {
   };
 
   const clearFilters = () => {
+    handleFilterChange();
     setSearch("");
     setSortOption("none");
     setFilters({

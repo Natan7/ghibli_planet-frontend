@@ -2,6 +2,10 @@
 
 Uma interface frontend para explorar os filmes do Studio Ghibli. O projeto permite buscar, filtrar e ordenar filmes, além de fornecer funcionalidades como avaliação pessoal, marcação de filmes (Assistido/Favoritos) e a possibilidade de adicionar anotações.
 
+## 🌍 Acesse o Site
+
+Você pode explorar a aplicação online através do seguinte link: 🔗 [Planet Ghibli](https://studiosghibliplanet-mrqagtqb.b4a.run).
+
 ## Instruções de Instalação e Execução
 
 Siga os passos abaixo para rodar a aplicação localmente:
